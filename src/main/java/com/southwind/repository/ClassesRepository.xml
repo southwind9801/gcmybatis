@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.southwind.repository.ClassesRepository">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" >
+        <!-- 缓存创建以后，最后一次访问缓存的时间至失效的时间间隔 -->
+        <property name="timeToIdleSeconds" value="3600"/>
+        <!-- 缓存自创建时间起至失效的时间间隔-->
+        <property name="timeToLiveSeconds" value="3600"/>
+        <!-- 缓存回收策略，LRU移除近期最少使用的对象 -->
+        <property name="memoryStoreEvictionPolicy" value="LRU"/>
+    </cache>
+    <resultMap id="classesMap" type="com.southwind.entity.Classes">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+    </resultMap>
+
+    <select id="findById" parameterType="long" resultMap="classesMap">
+        select * from classes where id = #{id}
+    </select>
+
+    <select id="findByIdLazy" parameterType="long" resultType="com.southwind.entity.Classes">
+        select * from classes where id = #{id}
+    </select>
+</mapper>

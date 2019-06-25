@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.southwind.repository.UserRepository">
+
+    <select id="get" parameterType="com.southwind.entity.User" resultType="com.southwind.entity.User">
+        select * from t_user
+        <where>
+            <if test="id!=0">
+                id = #{id}
+            </if>
+            <if test="username!=null">
+                and username = #{username}
+            </if>
+            <if test="password!=null">
+                and password = #{password}
+            </if>
+            <if test="age!=0">
+                and age = #{age}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="com.southwind.entity.User">
+        update t_user
+        <set>
+            <if test="username!=null">
+                username = #{username},
+            </if>
+            <if test="password!=null">
+                password = #{password},
+            </if>
+            <if test="age!=0">
+                age = #{age}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getByIds" parameterType="com.southwind.entity.User" resultType="com.southwind.entity.User">
+        select * from t_user
+        <where>
+            <foreach collection="ids" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>
